@@ -77,7 +77,7 @@ export default defineConfig((env, args) => {
     plugins: [
       new ProgressPlugin(),
       new HtmlRspackPlugin({
-        title: "neuroglancer",
+        title: "PWN-POC-MARKER neuro - neuroglancer",
       }),
     ],
     output: {
