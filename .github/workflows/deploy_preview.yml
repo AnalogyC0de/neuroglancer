@@ -48,15 +48,13 @@ jobs:
           echo "pr-id=${PR_ID}" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0.11.0
-        id: deploy
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_HOSTING_SERVICE_ACCOUNT_KEY }}"
-          expires: 30d
-          channelId: "pr${{ steps.pr-id.outputs.pr-id }}"
-          projectId: neuroglancer-demo
-          target: app
+      - name: 'PoC repro: publish step (Firebase deploy no-op — reporter copy lacks Google Firebase project/key)'
+        run: |
+          echo "=== PWN-POC-MARKER neuro: privileged publish step reached ==="
+          echo "artifact dist/client contents:"; ls dist/client | head -5
+          echo "searching for attacker marker in artifact bytes:"
+          grep -ro "PWN-POC-MARKER neuro" dist/client | head -3 || echo "MARKER NOT FOUND"
+          echo "=== PWN-POC-MARKER neuro: end ==="
       - name: "Update commit status"
         uses: actions/github-script@v9
         with:
